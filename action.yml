@@ -7,7 +7,7 @@ inputs:
   host:
     description: The host name of the Deephaven instance
     required: false
-    default: localhost
+    default: envoy
   project-name:
     description: The docker-compose project name to bundle separate docker-compose files
     required: true
