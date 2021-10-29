@@ -16,7 +16,7 @@ jobs:
       - name: Install python dependencies
         run: pip install -r ./validate/requirements.txt
       - name: Run table init script
-        run: python ./validate/init-tables.py
+        run: python ./test/init-tables.py
       - name: Validate tables
         uses: ./.
         with:
