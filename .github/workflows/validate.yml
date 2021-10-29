@@ -18,7 +18,7 @@ jobs:
       - name: Run table init script
         run: python ./validate/init-tables.py
       - name: Validate tables
-        uses: .
+        uses: ./.
         with:
           project-name: test-tables
           table-names: "tableOne,tableTwo,tableThree"
