@@ -17,6 +17,8 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+      - name: Upgrade pip #For some reason the install fails without this
+        run: pip install --upgrade pip
       - name: Install python dependencies
         run: pip install -r ./validate/requirements.txt
       - name: Run table init script
