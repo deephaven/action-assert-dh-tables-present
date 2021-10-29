@@ -27,5 +27,5 @@ jobs:
         uses: ./.
         with:
           project-name: test-tables
-          table-names: "tableOne,tableTwo,tableThree"
+          table-names: "tableOne,tableTwo"
           host: envoy
