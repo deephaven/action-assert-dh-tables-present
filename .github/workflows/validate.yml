@@ -28,3 +28,4 @@ jobs:
         with:
           project-name: test-tables
           table-names: "tableOne,tableTwo,tableThree"
+          host: envoy
