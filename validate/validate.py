@@ -75,12 +75,9 @@ if __name__ == '__main__':
         exit(1)
 
     try:
-        #For some reason, the workflow is passing sys.argvs with an extra set of
-        #double quotes, so it's like '"value,value"', which is why we use string replace
-        #before splitting on the comma
-        table_names = sys.argv[1].replace('"', '').split(",")
-        host = sys.argv[2].replace('"', '')
-        max_retires = int(sys.argv[3].replace('"', ''))
+        table_names = sys.argv[1].split(",")
+        host = sys.argv[2]
+        max_retries = int(sys.argv[3])
     except:
         print(usage)
         exit(1)
