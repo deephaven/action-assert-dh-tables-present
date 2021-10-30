@@ -62,23 +62,24 @@ def main(table_names: str, host: str, max_retries: int):
             exit(1)
 
 usage = """
-usage: python validate.py table-names host
+usage: python validate.py table-names host max-retries
 """
 
 if __name__ == '__main__':
     import sys
+    if len(sys.argv) > 4:
+        print(usage)
+        exit(1)
+
     try:
-        #For some reason, the workflow is passing sys.argv[1] with an extra set of
-        #double quotes, so it's like '"value,value"'. This splice removes those quotes
+        #For some reason, the workflow is passing sys.argvs with an extra set of
+        #double quotes, so it's like '"value,value"', which is why we use string replace
         #before splitting on the comma
-        table_names = sys.argv[1][1:-1].split(",")
-        host = sys.argv[2][1:-1]
+        table_names = sys.argv[1].replace('"', '').split(",")
+        host = sys.argv[2].replace('"', '')
+        max_retires = int(sys.argv[3].replace('"', ''))
     except:
         print(usage)
         exit(1)
 
-    if len(sys.argv) > 3:
-        print(usage)
-        exit(1)
-
-    main(table_names, host)
+    main(table_names, host, max_retries)

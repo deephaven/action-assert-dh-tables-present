@@ -11,6 +11,9 @@ inputs:
   project-name:
     description: The docker-compose project name to bundle separate docker-compose files
     required: true
+  max-retries:
+    description: The maximum attempts to retry connecting to Deephaven
+    required: true
 runs:
   using: docker
   image: Dockerfile
@@ -18,3 +21,4 @@ runs:
     - ${{ inputs.table-names }}
     - ${{ inputs.host }}
     - ${{ inputs.project-name }}
+    - ${{ inputs.max-retries }}
