@@ -7,6 +7,7 @@ A Python script that validates the presence of tables in Deephaven.
 """
 from pydeephaven import Session, DHError
 
+import sys
 import time
 
 def main(table_names: str, host: str, max_retries: int):
@@ -39,13 +40,13 @@ def main(table_names: str, host: str, max_retries: int):
             time.sleep(5)
             count += 1
         except Exception as e:
-            print("Unknown error when connecting to Deephaven")
+            print("Unknown error when connecting to Deephaven... Waiting to try again")
             print(e)
-            sys.exit()
+            time.sleep(5)
+            count += 1
     if session is None:
         sys.exit("Failed to connect to Deephaven after %d attempts" % max_retries)
 
-    table = session.empty_table(3)
     for table_name in table_names:
         try:
             #session.open_table(table_name)
@@ -53,33 +54,25 @@ def main(table_names: str, host: str, max_retries: int):
             session.run_script("%s=%s" % (table_name, table_name))
             print("Table is present: %s" % table_name)
         except DHError as e:
-            print("Deephaven error when trying to access table: %s" % table_name)
             print(e)
-            exit(1)
+            sys.exit("Deephaven error when trying to access table: %s" % table_name, 1)
         except Exception as e:
-            print("Unexpected error when trying to access table: %s" % table_name)
             print(e)
-            exit(1)
+            sys.exit("Unexpected error when trying to access table: %s" % table_name, 1)
 
 usage = """
 usage: python validate.py table-names host max-retries
 """
 
 if __name__ == '__main__':
-    import sys
-
-    print(sys.argv)
-
     if len(sys.argv) > 4:
-        print(usage)
-        exit(1)
+        sys.exit(usage, 1)
 
     try:
         table_names = sys.argv[1].split(",")
         host = sys.argv[2]
         max_retries = int(sys.argv[3])
     except:
-        print(usage)
-        exit(1)
+        sys.exit(usage, 1)
 
     main(table_names, host, max_retries)
