@@ -3,7 +3,6 @@ init-tables.py
 
 A Python script that adds a few tables to Deephaven.
 
-@author Jake Mulford
 @copyright Deephaven Data Labs
 """
 from pydeephaven import Session
