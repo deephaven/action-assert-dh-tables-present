@@ -27,5 +27,6 @@ jobs:
         uses: ./.
         with:
           project-name: test-tables
-          table-names: "tableOne,tableTwo"
+          table-names: tableOne,tableTwo
           host: envoy
+          max-retries: 4
