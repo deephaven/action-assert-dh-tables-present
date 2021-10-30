@@ -1,13 +1,13 @@
-# PR validation checks
+# PR checks
 
-name: Validate
+name: Test
 on:
   pull_request:
     branches:
       - main
 
 jobs:
-  validate:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
             pip install -r ./validate/requirements.txt
       - name: Run table init script
         run: python ./test/init-tables.py
-      - name: Validate tables
+      - name: Assert tables
         uses: ./.
         with:
           project-name: test-tables

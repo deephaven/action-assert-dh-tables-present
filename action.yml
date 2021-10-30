@@ -1,5 +1,5 @@
-name: Validate Tables
-description: Validates the presence of tables in a Deephaven server
+name: Assert Tables
+description: Asserts the presence of tables in a Deephaven server
 inputs:
   table-names:
     description: A string containing a comma separated list of table names to check
