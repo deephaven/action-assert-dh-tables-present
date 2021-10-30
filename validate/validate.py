@@ -67,6 +67,9 @@ usage: python validate.py table-names host max-retries
 
 if __name__ == '__main__':
     import sys
+
+    print(sys.argv)
+
     if len(sys.argv) > 4:
         print(usage)
         exit(1)
