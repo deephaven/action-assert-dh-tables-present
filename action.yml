@@ -5,11 +5,10 @@ inputs:
     description: A string containing a comma separated list of table names to check
     required: true
   host:
-    description: The host name of the Deephaven instance
-    required: false
-    default: envoy
-  project-name:
-    description: The docker-compose project name to bundle separate docker-compose files
+    description: The host name or IP address of the Deephaven instance
+    required: true
+  docker-compose-project-name:
+    description: The docker-compose project name for the assertion
     required: true
   max-retries:
     description: The maximum attempts to retry connecting to Deephaven
@@ -20,5 +19,5 @@ runs:
   args:
     - ${{ inputs.table-names }}
     - ${{ inputs.host }}
-    - ${{ inputs.project-name }}
+    - ${{ inputs.docker-compose-project-name }}
     - ${{ inputs.max-retries }}

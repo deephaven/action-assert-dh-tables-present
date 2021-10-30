@@ -26,7 +26,7 @@ jobs:
       - name: Assert tables
         uses: ./.
         with:
-          project-name: test-tables
+          docker-compose-project-name: test-tables
           table-names: tableOne,tableTwo
           host: envoy
           max-retries: 4
