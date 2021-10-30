@@ -67,7 +67,6 @@ usage: python validate.py table-names host
 
 if __name__ == '__main__':
     import sys
-    print(sys.argv)
     try:
         #For some reason, the workflow is passing sys.argv[1] with an extra set of
         #double quotes, so it's like '"value,value"'. This splice removes those quotes
@@ -78,7 +77,7 @@ if __name__ == '__main__':
         print(usage)
         exit(1)
 
-    if len(sys.argv) > 2:
+    if len(sys.argv) > 3:
         print(usage)
         exit(1)
 
