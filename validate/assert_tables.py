@@ -1,7 +1,7 @@
 """
-validate.py
+assert_tables.py
 
-A Python script that validates the presence of tables in Deephaven.
+A Python script that asserts the presence of tables in Deephaven.
 
 @copyright Deephaven Data Labs
 """
@@ -12,10 +12,10 @@ import time
 
 def main(table_names: str, host: str, max_retries: int):
     """
-    Main method for the script. Simply validates that each table exists
+    Main method for the script. Simply asserts that each table exists
 
     Parameters:
-        table_names (list<str>): A list of table names to validate
+        table_names (list<str>): A list of table names to assert the presence of
         host (str): The host name of the Deephaven instance
         max_retries (int): The maximum attempts to retry connecting to Deephaven
 
@@ -24,7 +24,7 @@ def main(table_names: str, host: str, max_retries: int):
     """
     print("Attempting to connect to host at")
     print(host)
-    print("Attempting to validate table names")
+    print("Attempting to assert presence of table names")
     print(table_names)
     session = None
 
@@ -61,7 +61,7 @@ def main(table_names: str, host: str, max_retries: int):
             sys.exit("Unexpected error when trying to access table: %s" % table_name, 1)
 
 usage = """
-usage: python validate.py table-names host max-retries
+usage: python assert_tables.py table-names host max-retries
 """
 
 if __name__ == '__main__':
