@@ -1,5 +1,5 @@
 """
-init-tables.py
+add-tables.py
 
 A Python script that adds a few tables to Deephaven.
 

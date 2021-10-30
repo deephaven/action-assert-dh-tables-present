@@ -5,6 +5,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 jobs:
   test:
@@ -21,8 +24,8 @@ jobs:
         run: |
             pip install --upgrade pip
             pip install -r ./validate/requirements.txt
-      - name: Run table init script
-        run: python ./test/init-tables.py
+      - name: Add tables to Deephaven
+        run: python ./test/add-tables.py
       - name: Assert tables
         uses: ./.
         with:
