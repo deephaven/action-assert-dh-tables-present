@@ -25,7 +25,7 @@ jobs:
       - name: Install python dependencies
         run: |
             pip install --upgrade pip
-            pip install -r ./validate/requirements.txt
+            pip install -r ./assert-tables/requirements.txt
       - name: Add tables to Deephaven
         run: python ./test/add-tables.py
       - name: Assert tables
