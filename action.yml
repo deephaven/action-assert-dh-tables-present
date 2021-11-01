@@ -12,7 +12,8 @@ inputs:
     required: true
   max-retries:
     description: The maximum attempts to retry connecting to Deephaven
-    required: true
+    required: false
+    default: 5
 runs:
   using: docker
   image: Dockerfile
