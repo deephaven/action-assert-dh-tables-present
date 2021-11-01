@@ -22,3 +22,7 @@ This action asserts the presence of Deephaven tables with specific names within 
     docker-compose-project-name: test-tables
     max-retries: 4
 ```
+
+## License
+
+Licensed under the Apache License, Version 2.0
