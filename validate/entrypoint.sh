@@ -1,2 +1,2 @@
 #!/bin/sh
-python /validate.py $TABLE_NAMES $HOST
+python /assert_tables.py $TABLE_NAMES $HOST $MAX_RETRIES

@@ -1,7 +1,7 @@
 FROM python:3.8
 
 COPY entrypoint.sh /entrypoint.sh
-COPY validate.py /validate.py
+COPY assert_tables.py /assert_tables.py
 COPY requirements.txt /requirements.txt
 
 RUN ["pip", "install", "--upgrade", "pip"]

@@ -1,9 +1,8 @@
 """
-init-tables.py
+add-tables.py
 
 A Python script that adds a few tables to Deephaven.
 
-@author Jake Mulford
 @copyright Deephaven Data Labs
 """
 from pydeephaven import Session
@@ -19,13 +18,14 @@ while (count < max_count):
     try:
         session = Session()
         count = max_count
-    except:
+    except Exception as e:
         print("Failed to connect to Deephaven... Waiting to try again")
-        time.sleep(2)
+        print(e)
+        time.sleep(5)
         count += 1
 
 if session is None:
-    sys.exit("Failed to connect to Deephaven after 5 attempts")
+    sys.exit("Failed to connect to Deephaven after %d attempts" % max_count)
 
 script = """
 from deephaven.TableTools import emptyTable
