@@ -1,9 +1,0 @@
-version: "3.4"
-
-services:
-  assert-tables:
-    image: deephaven-examples/assert-tables:latest
-    environment:
-      - HOST=${HOST}
-      - TABLE_NAMES=${TABLE_NAMES}
-      - MAX_RETRIES=${MAX_RETRIES}
