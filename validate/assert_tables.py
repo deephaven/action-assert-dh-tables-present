@@ -33,7 +33,8 @@ def main(table_names: str, host: str, max_retries: int):
     while (count < max_retries):
         try:
             session = Session(host=host)
-            continue
+            print("Connected to Deephaven")
+            break
         except DHError as e:
             print("Failed to connect to Deephaven... Waiting to try again")
             print(e)
@@ -55,10 +56,10 @@ def main(table_names: str, host: str, max_retries: int):
             print("Table is present: %s" % table_name)
         except DHError as e:
             print(e)
-            sys.exit("Deephaven error when trying to access table: %s" % table_name, 1)
+            sys.exit("Deephaven error when trying to access table: %s" % table_name)
         except Exception as e:
             print(e)
-            sys.exit("Unexpected error when trying to access table: %s" % table_name, 1)
+            sys.exit("Unexpected error when trying to access table: %s" % table_name)
 
 usage = """
 usage: python assert_tables.py table-names host max-retries
@@ -66,13 +67,13 @@ usage: python assert_tables.py table-names host max-retries
 
 if __name__ == '__main__':
     if len(sys.argv) > 4:
-        sys.exit(usage, 1)
+        sys.exit(usage)
 
     try:
         table_names = sys.argv[1].split(",")
         host = sys.argv[2]
         max_retries = int(sys.argv[3])
     except:
-        sys.exit(usage, 1)
+        sys.exit(usage)
 
     main(table_names, host, max_retries)
