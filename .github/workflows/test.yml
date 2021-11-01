@@ -15,7 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup Deephaven
-        run: docker-compose -f ./test/docker-compose.yml -p test-tables up -d
+        run: |
+          curl https://raw.githubusercontent.com/deephaven/deephaven-core/main/containers/python/docker-compose.yml > ./test/docker-compose.yml
+          docker-compose -f ./test/docker-compose.yml -p test-tables up -d
       - name: Setup python
         uses: actions/setup-python@v2
         with:
