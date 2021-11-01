@@ -17,11 +17,11 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Setup test environment
+    - name: Setup environment
       run: |
         pip install --upgrade pip
         pip install -r ./assert-tables/requirements.txt
-        python ./test/add_tables.py
       shell: sh
     - name: Assert tables
       run: python ./assert-tables/assert_tables.py ${{ inputs.table-names }} ${{ inputs.host }} ${{ inputs.max-retries }}
+      shell: sh
