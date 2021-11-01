@@ -46,20 +46,20 @@ def main(table_names: str, host: str, max_retries: int):
             time.sleep(5)
             count += 1
     if session is None:
-        sys.exit("Failed to connect to Deephaven after %d attempts" % max_retries)
+        sys.exit(f"Failed to connect to Deephaven after {max_retries} attempts")
 
     for table_name in table_names:
         try:
             #session.open_table(table_name)
             #Temporary workaround: This script is sufficient to check that the table exists
-            session.run_script("%s=%s" % (table_name, table_name))
-            print("Table is present: %s" % table_name)
+            session.run_script(f"{table_name}={table_name}")
+            print(f"Table is present: {table_name}")
         except DHError as e:
             print(e)
-            sys.exit("Deephaven error when trying to access table: %s" % table_name)
+            sys.exit(f"Deephaven error when trying to access table: {table_name}")
         except Exception as e:
             print(e)
-            sys.exit("Unexpected error when trying to access table: %s" % table_name)
+            sys.exit(f"Unexpected error when trying to access table: {table_name}")
 
 usage = """
 usage: python assert_tables.py table-names host max-retries

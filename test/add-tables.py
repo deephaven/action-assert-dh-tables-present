@@ -25,7 +25,7 @@ while (count < max_count):
         count += 1
 
 if session is None:
-    sys.exit("Failed to connect to Deephaven after %d attempts" % max_count)
+    sys.exit(f"Failed to connect to Deephaven after {max_count} attempts")
 
 script = """
 from deephaven.TableTools import emptyTable
