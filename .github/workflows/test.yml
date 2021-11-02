@@ -22,12 +22,11 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
-      - name: Install python dependencies
-        run: |
-            pip install --upgrade pip
-            pip install -r ./assert-tables/requirements.txt
       - name: Add tables to Deephaven
-        run: python ./test/add-tables.py
+        run: |
+          pip install --upgrade pip
+          pip install -r ./test/requirements.txt
+          python ./test/add-tables.py
       - name: Assert tables
         uses: ./.
         with:
