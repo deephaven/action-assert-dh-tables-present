@@ -7,9 +7,6 @@ inputs:
   host:
     description: The host name or IP address of the Deephaven instance
     required: true
-  docker-compose-project-name:
-    description: The docker-compose project name for the assertion
-    required: true
   max-retries:
     description: The maximum attempts to retry connecting to Deephaven
     required: false
