@@ -17,6 +17,7 @@ runs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
+        repo: deephaven/action-assert-dh-tables-present
         path: action-assert-dh-tables-present
     - name: Setup Python
       uses: actions/setup-python@v2
