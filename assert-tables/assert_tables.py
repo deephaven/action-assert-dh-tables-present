@@ -52,7 +52,6 @@ def main(table_names: str, host: str, max_retries: int):
         try:
             #session.open_table(table_name)
             #Temporary workaround: This script is sufficient to check that the table exists
-            print(f"{table_name}={table_name}")
             session.run_script(f"{table_name}={table_name}")
             print(f"Table is present: {table_name}")
         except DHError as e:
