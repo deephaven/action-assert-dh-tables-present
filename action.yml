@@ -14,6 +14,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        path: action-assert-dh-tables-present
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
@@ -21,8 +25,8 @@ runs:
     - name: Setup environment
       run: |
         pip install --upgrade pip
-        pip install -r ./assert-tables/requirements.txt
+        pip install -r ./action-assert-dh-tables-present/assert-tables/requirements.txt
       shell: sh
     - name: Assert tables
-      run: python ./assert-tables/assert_tables.py ${{ inputs.table-names }} ${{ inputs.host }} ${{ inputs.max-retries }}
+      run: python ./action-assert-dh-tables-present/assert-tables/assert_tables.py ${{ inputs.table-names }} ${{ inputs.host }} ${{ inputs.max-retries }}
       shell: sh
