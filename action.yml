@@ -7,6 +7,10 @@ inputs:
   host:
     description: The host name or IP address of the Deephaven instance
     required: true
+  port:
+    description: The port to access on the host.
+    required: false
+    default: 10000
   max-retries:
     description: The maximum attempts to retry connecting to Deephaven
     required: false
@@ -24,5 +28,5 @@ runs:
         pip install -r ${{ github.action_path }}/assert-tables/requirements.txt
       shell: sh
     - name: Assert tables
-      run: python ${{ github.action_path }}/assert-tables/assert_tables.py ${{ inputs.table-names }} ${{ inputs.host }} ${{ inputs.max-retries }}
+      run: python ${{ github.action_path }}/assert-tables/assert_tables.py ${{ inputs.table-names }} ${{ inputs.host }} ${{ inputs.port }} ${{ inputs.max-retries }}
       shell: sh
