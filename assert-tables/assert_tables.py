@@ -10,22 +10,21 @@ from pydeephaven import Session, DHError
 import sys
 import time
 
-def main(table_names: str, host: str, max_retries: int):
+def main(table_names: str, host: str, port: int, max_retries: int):
     """
     Main method for the script. Simply asserts that each table exists
 
     Parameters:
         table_names (list<str>): A list of table names to assert the presence of
         host (str): The host name of the Deephaven instance
+        port (int): The port on the host to access
         max_retries (int): The maximum attempts to retry connecting to Deephaven
 
     Returns:
         None
     """
-    print("Attempting to connect to host at")
-    print(host)
-    print("Attempting to assert presence of table names")
-    print(table_names)
+    print(f"Attempting to connect to host at {host} on port {port}")
+
     session = None
 
     #Simple retry loop in case the server tries to launch before Deephaven is ready
@@ -48,6 +47,9 @@ def main(table_names: str, host: str, max_retries: int):
     if session is None:
         sys.exit(f"Failed to connect to Deephaven after {max_retries} attempts")
 
+    print("Attempting to assert presence of table names")
+    print(table_names)
+
     for table_name in table_names:
         try:
             #session.open_table(table_name)
@@ -62,18 +64,19 @@ def main(table_names: str, host: str, max_retries: int):
             sys.exit(f"Unexpected error when trying to access table: {table_name}")
 
 usage = """
-usage: python assert_tables.py table-names host max-retries
+usage: python assert_tables.py table-names host port max-retries
 """
 
 if __name__ == '__main__':
-    if len(sys.argv) > 4:
+    if len(sys.argv) > 5:
         sys.exit(usage)
 
     try:
         table_names = sys.argv[1].split(",")
         host = sys.argv[2]
-        max_retries = int(sys.argv[3])
+        port = int(sys.argv[3])
+        max_retries = int(sys.argv[4])
     except:
         sys.exit(usage)
 
-    main(table_names, host, max_retries)
+    main(table_names, host, port, max_retries)

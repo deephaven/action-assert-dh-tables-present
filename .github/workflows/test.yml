@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Deephaven
         run: |
-          curl https://raw.githubusercontent.com/deephaven/deephaven-core/main/containers/python/docker-compose.yml > ./test/docker-compose.yml
+          curl https://raw.githubusercontent.com/deephaven/deephaven-core/main/containers/python/base/docker-compose.yml > ./test/docker-compose.yml
           docker-compose -f ./test/docker-compose.yml up -d
       - name: Setup python
         uses: actions/setup-python@v2
