@@ -10,7 +10,7 @@ from pydeephaven import Session, DHError
 import sys
 import time
 
-def main(table_names: str, host: str, port: int, max_retries: int):
+def main(table_names: str, host: str, port: int, session_type: str, max_retries: int):
     """
     Main method for the script. Simply asserts that each table exists
 
@@ -18,6 +18,7 @@ def main(table_names: str, host: str, port: int, max_retries: int):
         table_names (list<str>): A list of table names to assert the presence of
         host (str): The host name of the Deephaven instance
         port (int): The port on the host to access
+        session_type (str): The Deephaven session type
         max_retries (int): The maximum attempts to retry connecting to Deephaven
 
     Returns:
@@ -31,7 +32,7 @@ def main(table_names: str, host: str, port: int, max_retries: int):
     count = 0
     while (count < max_retries):
         try:
-            session = Session(host=host)
+            session = Session(host=host, port=port)#, session_type=session_type)
             print("Connected to Deephaven")
             break
         except DHError as e:
@@ -64,19 +65,20 @@ def main(table_names: str, host: str, port: int, max_retries: int):
             sys.exit(f"Unexpected error when trying to access table: {table_name}")
 
 usage = """
-usage: python assert_tables.py table-names host port max-retries
+usage: python assert_tables.py table-names host port session-type max-retries
 """
 
 if __name__ == '__main__':
-    if len(sys.argv) > 5:
+    if len(sys.argv) > 6:
         sys.exit(usage)
 
     try:
         table_names = sys.argv[1].split(",")
         host = sys.argv[2]
         port = int(sys.argv[3])
-        max_retries = int(sys.argv[4])
+        session_type = sys.argv[4]
+        max_retries = int(sys.argv[5])
     except:
         sys.exit(usage)
 
-    main(table_names, host, port, max_retries)
+    main(table_names, host, port, session_type, max_retries)

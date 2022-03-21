@@ -27,11 +27,8 @@ while (count < max_count):
 if session is None:
     sys.exit(f"Failed to connect to Deephaven after {max_count} attempts")
 
-script = """
-from deephaven.TableTools import emptyTable
+tableOne = session.empty_table(1)
+tableTwo = session.empty_table(2)
 
-tableOne = emptyTable(1).update("Index = i")
-tableTwo = emptyTable(2).update("Index = i")
-"""
-
-session.run_script(script)
+session.bind_table(name="tableOne", table=tableOne)
+session.bind_table(name="tableTwo", table=tableTwo)
