@@ -38,11 +38,11 @@ jobs:
           max-retries: 5
           session-type: python
       - name: Setup Groovy Deephaven
-          run: |
-            docker-compose -f ./test/docker-compose.yml down
-            curl https://raw.githubusercontent.com/deephaven/deephaven-core/main/containers/groovy-examples/docker-compose.yml > ./test/docker-compose.yml
-            docker-compose -f ./test/docker-compose.yml up -d
-            python ./test/add-tables.py
+        run: |
+          docker-compose -f ./test/docker-compose.yml down
+          curl https://raw.githubusercontent.com/deephaven/deephaven-core/main/containers/groovy-examples/docker-compose.yml > ./test/docker-compose.yml
+          docker-compose -f ./test/docker-compose.yml up -d
+          python ./test/add-tables.py
       - name: Assert Groovy tables
         uses: ./.
         with:
