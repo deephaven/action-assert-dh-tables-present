@@ -10,7 +10,18 @@ from pydeephaven import Session, DHError
 import sys
 import time
 
-def main(table_names: str, host: str, port: int, max_retries: int):
+assert_script_python = """
+if not ("{table_name}") in globals():
+    raise Exception("{table_name} not found in globals()")
+"""
+
+assert_script_groovy = """
+if (!QueryScope.getScope().hasParamName("{table_name}")){{
+    throw new Exception("{table_name} not found in QueryScope")
+}}
+"""
+
+def main(table_names: str, host: str, port: int, session_type: str, max_retries: int):
     """
     Main method for the script. Simply asserts that each table exists
 
@@ -18,11 +29,20 @@ def main(table_names: str, host: str, port: int, max_retries: int):
         table_names (list<str>): A list of table names to assert the presence of
         host (str): The host name of the Deephaven instance
         port (int): The port on the host to access
+        session_type (str): The Deephaven session type
         max_retries (int): The maximum attempts to retry connecting to Deephaven
 
     Returns:
         None
     """
+    assert_script = None
+    if session_type == 'python':
+        assert_script = assert_script_python
+    elif session_type == 'groovy':
+        assert_script = assert_script_groovy
+    else:
+        raise ValueError(f"Session type {session_type} not recognized")
+
     print(f"Attempting to connect to host at {host} on port {port}")
 
     session = None
@@ -31,7 +51,7 @@ def main(table_names: str, host: str, port: int, max_retries: int):
     count = 0
     while (count < max_retries):
         try:
-            session = Session(host=host)
+            session = Session(host=host, port=port, session_type=session_type)
             print("Connected to Deephaven")
             break
         except DHError as e:
@@ -52,9 +72,7 @@ def main(table_names: str, host: str, port: int, max_retries: int):
 
     for table_name in table_names:
         try:
-            #session.open_table(table_name)
-            #Temporary workaround: This script is sufficient to check that the table exists
-            session.run_script(f"{table_name}={table_name}")
+            session.run_script(assert_script.format(table_name=table_name))
             print(f"Table is present: {table_name}")
         except DHError as e:
             print(e)
@@ -64,19 +82,20 @@ def main(table_names: str, host: str, port: int, max_retries: int):
             sys.exit(f"Unexpected error when trying to access table: {table_name}")
 
 usage = """
-usage: python assert_tables.py table-names host port max-retries
+usage: python assert_tables.py table-names host port session-type max-retries
 """
 
 if __name__ == '__main__':
-    if len(sys.argv) > 5:
+    if len(sys.argv) > 6:
         sys.exit(usage)
 
     try:
         table_names = sys.argv[1].split(",")
         host = sys.argv[2]
         port = int(sys.argv[3])
-        max_retries = int(sys.argv[4])
+        session_type = sys.argv[4]
+        max_retries = int(sys.argv[5])
     except:
         sys.exit(usage)
 
-    main(table_names, host, port, max_retries)
+    main(table_names, host, port, session_type, max_retries)

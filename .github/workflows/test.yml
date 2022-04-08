@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Deephaven
+      - name: Setup Python Deephaven
         run: |
           curl https://raw.githubusercontent.com/deephaven/deephaven-core/main/containers/python/base/docker-compose.yml > ./test/docker-compose.yml
           docker-compose -f ./test/docker-compose.yml up -d
@@ -25,14 +25,28 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
-      - name: Add tables to Deephaven
+      - name: Add tables to Python Deephaven
         run: |
           pip install --upgrade pip
           pip install -r ./test/requirements.txt
           python ./test/add-tables.py
-      - name: Assert tables
+      - name: Assert Python tables
         uses: ./.
         with:
           table-names: tableOne,tableTwo
           host: localhost
           max-retries: 5
+          session-type: python
+      - name: Setup Groovy Deephaven
+        run: |
+          docker-compose -f ./test/docker-compose.yml down
+          curl https://raw.githubusercontent.com/deephaven/deephaven-core/main/containers/groovy-examples/docker-compose.yml > ./test/docker-compose.yml
+          docker-compose -f ./test/docker-compose.yml up -d
+          python ./test/add-tables.py
+      - name: Assert Groovy tables
+        uses: ./.
+        with:
+          table-names: tableOne,tableTwo
+          host: localhost
+          max-retries: 5
+          session-type: groovy

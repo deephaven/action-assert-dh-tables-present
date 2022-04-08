@@ -11,6 +11,10 @@ inputs:
     description: The port to access on the host.
     required: false
     default: 10000
+  session-type:
+    description: The Deephaven session type
+    required: false
+    default: python
   max-retries:
     description: The maximum attempts to retry connecting to Deephaven
     required: false
@@ -28,5 +32,5 @@ runs:
         pip install -r ${{ github.action_path }}/assert-tables/requirements.txt
       shell: sh
     - name: Assert tables
-      run: python ${{ github.action_path }}/assert-tables/assert_tables.py ${{ inputs.table-names }} ${{ inputs.host }} ${{ inputs.port }} ${{ inputs.max-retries }}
+      run: python ${{ github.action_path }}/assert-tables/assert_tables.py ${{ inputs.table-names }} ${{ inputs.host }} ${{ inputs.port }} ${{ inputs.session-type }} ${{ inputs.max-retries }}
       shell: sh
