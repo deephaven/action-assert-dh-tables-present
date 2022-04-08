@@ -41,7 +41,7 @@ def main(table_names: str, host: str, port: int, session_type: str, max_retries:
     elif session_type == 'groovy':
         assert_script = assert_script_groovy
     else:
-        sys.exit(f"Session type {session_type} not recognized")
+        raise ValueError(f"Session type {session_type} not recognized")
 
     print(f"Attempting to connect to host at {host} on port {port}")
 
