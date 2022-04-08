@@ -10,6 +10,17 @@ from pydeephaven import Session, DHError
 import sys
 import time
 
+assert_script_python = """
+if not ("{table_name}") in globals():
+    raise Exception("{table_name} not found in globals()")
+"""
+
+assert_script_groovy = """
+if (!QueryScope.getScope().hasParamName("{table_name}")){{
+    throw new Exception("{table_name} not found in QueryScope")
+}}
+"""
+
 def main(table_names: str, host: str, port: int, session_type: str, max_retries: int):
     """
     Main method for the script. Simply asserts that each table exists
@@ -24,6 +35,14 @@ def main(table_names: str, host: str, port: int, session_type: str, max_retries:
     Returns:
         None
     """
+    assert_script = None
+    if session_type == 'python':
+        assert_script = assert_script_python
+    elif session_type == 'groovy':
+        assert_script = assert_script_groovy
+    else:
+        sys.exit(f"Session type {session_type} not recognized")
+
     print(f"Attempting to connect to host at {host} on port {port}")
 
     session = None
@@ -32,7 +51,7 @@ def main(table_names: str, host: str, port: int, session_type: str, max_retries:
     count = 0
     while (count < max_retries):
         try:
-            session = Session(host=host, port=port)#, session_type=session_type) #TODO: uncomment this out when https://github.com/deephaven/deephaven-core/pull/2107 is merged
+            session = Session(host=host, port=port, session_type=session_type)
             print("Connected to Deephaven")
             break
         except DHError as e:
@@ -53,9 +72,7 @@ def main(table_names: str, host: str, port: int, session_type: str, max_retries:
 
     for table_name in table_names:
         try:
-            #session.open_table(table_name)
-            #Temporary workaround: This script is sufficient to check that the table exists
-            session.run_script(f"{table_name}={table_name}")
+            session.run_script(assert_script.format(table_name=table_name))
             print(f"Table is present: {table_name}")
         except DHError as e:
             print(e)
